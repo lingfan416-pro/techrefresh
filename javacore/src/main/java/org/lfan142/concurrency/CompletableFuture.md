@@ -294,3 +294,10 @@ If pipeline fails and you never inspect it, bugs become hidden.
 
 
 
+## Important distinction: pool vs execution group
+In Spring Boot, sometimes people say “how many thread pools,” but one of those is already managed by the runtime.
+For example with Spring MVC + Tomcat, you may have:
+- Tomcat threads for incoming requests 
+- one custom ThreadPoolTaskExecutor for business async work 
+- one TaskScheduler for scheduled jobs
+That is already a solid setup.
