@@ -1,6 +1,7 @@
 # CyclicBarrier
 CyclicBarrier is a Java concurrency utility that lets a group of threads wait for each other at a common barrier point.
-It is a reusable synchronization aid that allows a fixed number of threads to wait for each other at a common barrier point. When all participating threads call await(), the barrier is tripped, optional barrier action can run, and all threads continue to the next phase. It is useful for multi-phase parallel processing.
+It is a reusable synchronization aid that allows a fixed number of threads to wait for each other at a common barrier point. 
+When all participating threads call await(), the barrier is tripped, optional barrier action can run, and all threads continue to the next phase. It is useful for multi-phase parallel processing.
 
 Package: `java.util.concurrent.CyclicBarrier`
 
