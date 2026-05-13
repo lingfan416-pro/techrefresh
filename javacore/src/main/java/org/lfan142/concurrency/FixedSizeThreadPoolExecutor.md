@@ -1,0 +1,1 @@
+    """Return a label based on age."""
