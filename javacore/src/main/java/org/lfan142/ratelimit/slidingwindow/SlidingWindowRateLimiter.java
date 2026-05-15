@@ -1,33 +1,38 @@
 package org.lfan142.ratelimit.slidingwindow;
 
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingDeque;
+
 
 public class SlidingWindowRateLimiter {
 
     private final SlidingWindowConfig config;
 
-    private final Queue<Long> historyRequstTime = new LinkedBlockingDeque<>();
+    private final long[] historyRequstTime;
+
+    private int head = 0;
+    private int size = 0;
 
     public SlidingWindowRateLimiter(SlidingWindowConfig config){
         if(config == null){
             throw new IllegalArgumentException("config is illegal, value is "+config);
         }
         this.config = config;
+        historyRequstTime = new long[config.getAllowRequestCnt()];
     }
 
     public synchronized boolean allowRequest(){
         long now = System.currentTimeMillis();
-        Long preTimeStamp = historyRequstTime.peek();
-        while(historyRequstTime.peek() != null && now - preTimeStamp > config.getSlidingTimeWindow()){
-            historyRequstTime.remove();
-            preTimeStamp = historyRequstTime.peek();
+        while(size > 0 && now - historyRequstTime[head] >= config.getSlidingTimeWindow()){
+            head ++;
+            head = head % config.getAllowRequestCnt();
+            size --;
         }
-        if(historyRequstTime.size() < config.getAllowRequestCnt()){
-            historyRequstTime.add(now);
-            return true;
+        if(size >= config.getAllowRequestCnt()){
+            return false;
         }
-        return false;
+        int tail = (head + size)%config.getAllowRequestCnt();
+        historyRequstTime[tail] = now;
+        size ++;
+        return true;
     }
 
 
