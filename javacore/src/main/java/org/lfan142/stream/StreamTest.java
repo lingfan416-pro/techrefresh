@@ -7,7 +7,7 @@ public class StreamTest {
 
 
     public static void main(String[] args) {
-        reduceExec();
+        strngconcate();
 
     }
 
@@ -38,6 +38,12 @@ public class StreamTest {
         List<Integer> numbers = List.of(1, 2, 3, 4, 5);
         int result = numbers.stream().reduce(1, Integer::sum);
         System.out.println(result);
+    }
+
+    public static void strngconcate(){
+        List<String> words = List.of("Java", "Stream", "API");
+        System.out.println(words.stream().reduce("", (a, b) -> a + " " + b));
+
     }
 }
 
